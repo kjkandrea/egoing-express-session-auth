@@ -4,6 +4,8 @@ const fs = require('fs')
 const path = require('path')
 const sanitizeHtml = require('sanitize-html')
 const template = require('../lib/template.js')
+const authData = require('../password.js')
+const { request } = require('https')
 
 router.get('/login', (req, res) => {
   const title = 'WEB - login';
@@ -20,18 +22,24 @@ router.get('/login', (req, res) => {
   res.send(html);
 });
 
+router.post('/login_process', (req, res) => {
+  const post = req.body;
+  const email = post.email;
+  const password = post.password;
+
+  if(email === authData.email && password === authData.password){
+    // success!
+    res.send('Welcome!')
+  }else {
+    res.send('Who are you?')
+  }
+  // res.redirect(`/topic/${title}`);
+
+});
+
 module.exports = router;
 
 /*
-
-router.post('/create', (req, res) => {
-  const post = req.body
-  const title = post.title
-  const description = post.description
-  fs.writeFile(`data/${title}`, description, 'utf8', (err) => {
-    res.redirect(`/topic/${title}`);
-  });
-});
 
 router.get('/update/:pageId', (req, res) => {
   const filteredId = path.parse(req.params.pageId).base
