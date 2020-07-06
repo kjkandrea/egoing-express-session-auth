@@ -3,8 +3,6 @@ const app = express()
 const port = 3000
 const fs = require('fs')
 const compression = require('compression')
-const indexRouter = require('./routes/index')
-const topicRouter = require('./routes/topic')
 const helmet = require('helmet')
 app.use(helmet())
 
@@ -22,8 +20,13 @@ app.get('*', (req, res, next) => {
 
 // route, routing
 
+const indexRouter = require('./routes/index')
+const topicRouter = require('./routes/topic')
+const authRouter = require('./routes/auth')
+
 app.use('/', indexRouter);
 app.use('/topic', topicRouter);
+app.use('/auth', authRouter);
 
 app.use((req, res, next) => {
   res.status(404).send('Sorry. cant find that!')
