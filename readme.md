@@ -160,4 +160,4 @@ req.session.save(() => {
 
 ### 접근 제어 (Create, Update, Delete)
 
-### 세션 저장
+### 세션 저장 : session.save 처리
