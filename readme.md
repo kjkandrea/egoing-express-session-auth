@@ -47,7 +47,7 @@ app.use(session({
 *`saveUninitialized: true`: 세션이 필요하기 전까지는 세션을 구동하지않는다.
 *`saveUninitialized: false`: 무조건 세션을 구동한다. (서버에 큰 부담을 줄 수 있음)
 
-## view수를 카운팅하는 코드
+### view수를 카운팅하는 코드
 
 아래의 코드는 `session.num`이란 값을 세션에 만들어 view수를 카운팅하는 코드이다.
 페이지를 리로드할때마다 `session.num`이 증가하여 응답에 표시된다.
@@ -82,7 +82,7 @@ app.listen(3000, () => {
 하지만 서버가 종료되면 `session.num`은 휘발된다.
 서버의 상태와 상관없이 세션정보를 유지할 수 있도록 세션 정보를 데이터베이스나 파일에 보관할 수 있지않을까?
 
-## session-file-store
+### session-file-store
 
 session-file-store는 express-session의 서드파티 모듈이다.
 이 모듈은 root 디렉토리 하위에 sessions란 디렉토리를 만들어 세션 데이터를 저장한다.
@@ -117,6 +117,17 @@ app.listen(3000, () => {
 })
 ```
 
+### session.destroy(callback)
+
+세션을 삭제하고 req.session 속성을 설정 해제한다.
+삭제되고나면 인자로 받은 callback이 호출된다.
+
+``` javascript
+req.session.destroy(function(err) {
+  // Something
+})
+```
+
 ## 인증 구현
 
 ### UI 만들기
@@ -128,3 +139,7 @@ app.listen(3000, () => {
 ### 인증 상태를 UI에 반영
 
 ### 로그인 상태 UI를 반영
+
+### 로그아웃
+
+### 접근 제어 (Create, Update, Delete)

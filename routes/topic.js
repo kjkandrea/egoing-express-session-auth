@@ -5,8 +5,14 @@ const path = require('path')
 const sanitizeHtml = require('sanitize-html')
 const template = require('../lib/template.js')
 const auth = require('../lib/auth')
+const { response } = require('express')
 
 router.get('/create', (req, res) => {
+  if(!auth.IsOwner(req, res)) {
+    response.redirect('/')
+    return false;
+  }
+
   const title = 'WEB - create';
   const list = template.list(req.list)
   const html = template.HTML(title, list, `
@@ -25,6 +31,11 @@ router.get('/create', (req, res) => {
 
 
 router.post('/create', (req, res) => {
+  if(!auth.IsOwner(req, res)) {
+    response.redirect('/')
+    return false;
+  }
+
   const post = req.body
   const title = post.title
   const description = post.description
@@ -34,6 +45,11 @@ router.post('/create', (req, res) => {
 });
 
 router.get('/update/:pageId', (req, res) => {
+  if(!auth.IsOwner(req, res)) {
+    response.redirect('/')
+    return false;
+  }
+
   const filteredId = path.parse(req.params.pageId).base
   fs.readFile(`data/${filteredId}`, 'utf8', function(err, description){
     const title = req.params.pageId
@@ -59,6 +75,11 @@ router.get('/update/:pageId', (req, res) => {
 });
 
 router.post('/update', (req, res) => {
+  if(!auth.IsOwner(req, res)) {
+    response.redirect('/')
+    return false;
+  }
+
   const post = req.body
   const id = post.id
   const title = post.title
@@ -71,6 +92,11 @@ router.post('/update', (req, res) => {
 });
 
 router.post('/delete', (req, res) => {
+  if(!auth.IsOwner(req, res)) {
+    response.redirect('/')
+    return false;
+  }
+  
   const post = req.body
   const id = post.id
   const filteredId = path.parse(id).base
