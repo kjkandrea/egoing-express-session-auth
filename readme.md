@@ -128,6 +128,22 @@ req.session.destroy(function(err) {
 })
 ```
 
+### session.save(callback)
+
+세션을 저장하고 나서 실행되어야하는 동작은 callback에 담아주면 된다. 
+
+아래는 로그인이 되었을 때 **로그인이 되었음을 세션에 먼저 기록하고** 그 후 리다이렉션을 시키는 코드이다.
+
+``` javascript
+req.session.is_logged_in = true
+req.session.save(() => {
+  res.redirect(`/`);
+});
+```
+
+위의 사례에서 만일 `session.save(callback)` 로 비동기처리를 하지않는다면 redirect가 되었음에도 세션이 저장되지않아 **redirect가 되었으나 로그인이 지연되는** 상황이 발생할 수 있다.
+
+
 ## 인증 구현
 
 ### UI 만들기
@@ -143,3 +159,5 @@ req.session.destroy(function(err) {
 ### 로그아웃
 
 ### 접근 제어 (Create, Update, Delete)
+
+### 세션 저장
